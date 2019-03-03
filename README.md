@@ -38,4 +38,5 @@ java -jar target\UserTablesGenerator-1.0-jar-with-dependencies.jar
 -----
 
 Жердев Иван
+
 http://www.zherdev.tech
