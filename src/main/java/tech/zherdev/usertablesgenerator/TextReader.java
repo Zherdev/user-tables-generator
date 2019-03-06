@@ -59,4 +59,5 @@ public class TextReader {
         buffReader.close();
         return listOfLines;
     }
+
 }

@@ -34,7 +34,7 @@ public class UserTablesGenerator {
     private UserAttrGenerator userAttrGenerator;
 
     /* Массив, содержащий экспортеры таблиц */
-    private TableExporter[] exportersArr;
+    private ITableExporter[] exportersArr;
 
     /**
      * Основной метод.
@@ -65,7 +65,7 @@ public class UserTablesGenerator {
         userAttrGenerator = new UserAttrGenerator();
 
         /* Добавляем экспортер в XLSX и экспортер в PDF */
-        exportersArr = new TableExporter[] {new XLSXTableExporter(titles.length),
+        exportersArr = new ITableExporter[] {new XLSXTableExporter(titles.length),
                                             new PDFTableExporter(titles.length)};
     }
 
@@ -80,7 +80,7 @@ public class UserTablesGenerator {
         ArrayList<String[]> usersList = userAttrGenerator.generateUsersList();
 
         /* Цикл по экспортерам таблиц */
-        for (TableExporter tabExp: exportersArr) {
+        for (ITableExporter tabExp: exportersArr) {
             /* Форматируем таблицу */
             tabExp.setHead(titles);
             tabExp.setTableName(tableName);
@@ -98,4 +98,5 @@ public class UserTablesGenerator {
             }
         }
     }
+
 }
