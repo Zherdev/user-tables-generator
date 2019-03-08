@@ -1,7 +1,17 @@
+/*
+ * InnGenerator
+ *
+ * Ivan Zherdev, 2019
+ */
 package tech.zherdev.usertablesgenerator;
 
 import java.security.SecureRandom;
 
+/**
+ * Класс InnGenerator предназначен для генерации валидных случайных ИНН.
+ *
+ * @author Ivan Zherdev
+ */
 public class InnGenerator {
 
     private static final SecureRandom random = new SecureRandom();
@@ -9,6 +19,7 @@ public class InnGenerator {
     private String innRegion;
     private int innBound;             /* Максимальный номер отделения налоговой */
 
+    /** Констркутор класса InnGenerator */
     InnGenerator(int innRegion, int innBound) {
         this.innRegion = String.valueOf(innRegion);
         this.innBound = innBound;
@@ -24,7 +35,7 @@ public class InnGenerator {
      *
      * @return строка из 12 чисел
      */
-    String generateINN() {
+    public String generateINN() {
         String department;
         String record;
         int[] control = new int[2];
@@ -48,4 +59,5 @@ public class InnGenerator {
 
         return innRegion + department + record + control[0] + control[1];
     }
+
 }

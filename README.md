@@ -1,7 +1,8 @@
-User Tables Generator
-=====================
+User Tables Generator 1.1
+=========================
 
 Приложение предназначено для генерации таблиц со случайными пользовательскими данными.
+Для генерации используется API http://randomuser.ru/ и локальная база.
 Результат работы приложения: xlsx-таблица, pdf-таблица, log-файл.
 
 
@@ -14,7 +15,7 @@ User Tables Generator
 mvn clean compile assembly:single
 ```
 
-В каталоге target\ будет создан исполняемый файл UserTablesGenerator-1.0-jar-with-dependencies.jar
+В каталоге target\ будет создан исполняемый файл UserTablesGenerator-1.1-jar-with-dependencies.jar
 
 
 Запуск
@@ -28,7 +29,7 @@ chcp 65001
 Для запуска User Tables Generator выполните команду:
 
 ```
-java -jar target\UserTablesGenerator-1.0-jar-with-dependencies.jar
+java -jar target\UserTablesGenerator-1.1-jar-with-dependencies.jar
 ```
 
 Выходные файлы будут сохранены в директорию, из которой производится запуск.

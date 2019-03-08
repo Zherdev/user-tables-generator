@@ -1,5 +1,5 @@
 /*
- * UserAttrGenerator
+ * RandomUserGenerator
  *
  * Ivan Zherdev, 2019
  */
@@ -13,7 +13,8 @@ import java.util.Map;
 
 /**
  * Класс RandomUserGenerator предназначен для генерации
- * случайных пользователей на основе локальных (оффлайн) параметров
+ * случайных пользователей на основе локальных (оффлайн) параметров.
+ * Производный от абстрактного класса AUserGenerator.
  *
  * @author Ivan Zherdev
  */
@@ -21,8 +22,6 @@ public class RandomUserGenerator extends AUserGenerator {
 
     private static final SecureRandom random = new SecureRandom();
     private static final String resourceFolder = "";    /* Ресурсы хранятся в корне .jar-архива */
-    private static final int maxMailIndex = 200000;
-    private static final int minMailIndex = 100000;
     private static final int maxBuildingNum = 100;
 
     /* Названия атрибутов соответствуют именам ресурсных файлов */

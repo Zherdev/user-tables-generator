@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 import java.security.SecureRandom;
 
 /**
- * Класс CustomDate предназначен работы со случайными датами.
+ * Класс CustomDate предназначен работы с датами.
  *
  * @author Ivan Zherdev
  */
@@ -32,9 +32,10 @@ public class CustomDate {
         calendar.set(calendar.DAY_OF_YEAR, day);
     }
 
-    /** Конструктор класса CustomDate для заданной даты */
+    /** Конструктор класса CustomDate для заданной в секундах даты */
     CustomDate(long timestamp) {
-        calendar.setTimeInMillis(timestamp);
+        calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(timestamp * 1000);
     }
 
     /** @return возвращает хранящуюся дату в календаре */
@@ -59,7 +60,7 @@ public class CustomDate {
     }
 
     /**
-     * Перегруженный метод toString() преобразует дату в строку.
+     * Переопределенный метод toString() преобразует дату в строку.
      *
      * @return ДД-ММ-ГГГГ
      */

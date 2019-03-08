@@ -30,8 +30,8 @@ public class UserTablesGenerator {
     /* Заголовок таблицы */
     private static final String tableName = "Пользовательские данные";
 
-    /* Генератор пользовательских данных */
-    private UserAttrGenerator userAttrGenerator;
+    /* Массив, содержащий генераторы пользователей */
+    private AUserGenerator[] generatorsArr;
 
     /* Массив, содержащий экспортеры таблиц */
     private ITableExporter[] exportersArr;
@@ -62,11 +62,14 @@ public class UserTablesGenerator {
      * @throws IOException в случае ошибки при чтении из файла
      */
     private void init() throws IOException {
-        userAttrGenerator = new UserAttrGenerator();
+
+        /* Добавляем генераторы пользователей в порядке убывания приоритета */
+        generatorsArr = new AUserGenerator[] {new APIUserGenerator(),
+                                                  new RandomUserGenerator()};
 
         /* Добавляем экспортер в XLSX и экспортер в PDF */
         exportersArr = new ITableExporter[] {new XLSXTableExporter(titles.length),
-                                            new PDFTableExporter(titles.length)};
+                                             new PDFTableExporter(titles.length)};
     }
 
     /**
@@ -75,9 +78,20 @@ public class UserTablesGenerator {
      * @throws IOException в случае ошибки при записи в файл
      */
     private void run() throws IOException {
+        ArrayList<User> usersList = null;
 
-        /* Коллекция наборов пользовательских данных */
-        ArrayList<String[]> usersList = userAttrGenerator.generateUsersList();
+        /* Цикл по генераторам пользователей */
+        for (AUserGenerator generator: generatorsArr) {
+            try {
+                usersList = generator.generateUsersList();
+
+                /* Если генерация прошла успешно - выходим из цикла */
+                break;
+            } catch (IOException e) {
+                /* Выводим ошибку в лог */
+                logger.error(e);
+            }
+        }
 
         /* Цикл по экспортерам таблиц */
         for (ITableExporter tabExp: exportersArr) {
@@ -86,8 +100,8 @@ public class UserTablesGenerator {
             tabExp.setTableName(tableName);
 
             /* Добавляем пользовательские записи */
-            for (String[] userAttributes : usersList) {
-                tabExp.addRowToEnd((userAttributes));
+            for (User user: usersList) {
+                tabExp.addRowToEnd(user.toStringArray());
             }
 
             /* Вывод в файл */

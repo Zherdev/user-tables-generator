@@ -1,9 +1,20 @@
+/*
+ * CustomDeserializer
+ *
+ * Ivan Zherdev, 2019
+ */
 package tech.zherdev.usertablesgenerator;
 
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
+/**
+ * Класс CustomDeserializer реализует интерфейс JsonDeserializer.
+ * Предназначен для десериализации объекта User.
+ *
+ * @author Ivan Zherdev
+ */
 public class CustomDeserializer implements JsonDeserializer<User> {
 
     public User deserialize(
@@ -11,23 +22,25 @@ public class CustomDeserializer implements JsonDeserializer<User> {
             Type type,
             JsonDeserializationContext jsonDeserializationContext
     ) throws JsonParseException {
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        JsonObject user = jsonElement.getAsJsonObject().getAsJsonObject("user");
+        JsonObject name = user.get("name").getAsJsonObject();
+        JsonObject location = user.get("location").getAsJsonObject();
 
-        CustomDate birthday = new CustomDate(jsonObject.get("dob").getAsLong());
+        CustomDate birthday = new CustomDate(user.get("dob").getAsLong());
         int age = birthday.countPassedYears();
 
         return new User(
-                jsonObject.get("first").getAsString(),
-                jsonObject.get("last").getAsString(),
-                jsonObject.get("middle").getAsString(),
+                name.get("first").getAsString(),
+                name.get("last").getAsString(),
+                name.get("middle").getAsString(),
                 age,
-                jsonObject.get("gender").getAsString(),
+                user.get("gender").getAsString(),
                 birthday,
-                jsonObject.get("zip").getAsInt(),
-                jsonObject.get("state").getAsString(),
-                jsonObject.get("city").getAsString(),
-                jsonObject.get("street").getAsString(),
-                jsonObject.get("building").getAsInt()
+                location.get("state").getAsString(),
+                location.get("city").getAsString(),
+                location.get("street").getAsString(),
+                location.get("building").getAsInt()
         );
     }
+
 }

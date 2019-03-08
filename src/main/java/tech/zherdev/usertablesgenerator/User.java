@@ -1,7 +1,15 @@
+/*
+ * User
+ *
+ * Ivan Zherdev, 2019
+ */
 package tech.zherdev.usertablesgenerator;
 
-import java.util.GregorianCalendar;
-
+/**
+ * Класс User предназначен для хранения пользовательских данных.
+ *
+ * @author Ivan Zherdev
+ */
 public class User {
 
     private String firstName;
@@ -19,32 +27,35 @@ public class User {
     private int building;
     private int appart;
 
+    /** Неполный конструктор класса User. */
     User(String firstName, String lastName, String patrName, int age, String gender,
-         CustomDate birthday, int zip, String region,
+         CustomDate birthday, String region,
          String city, String street, int building) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.patrName = patrName;
         this.age = age;
         this.gender = gender;
         this.birthday = birthday;
-        this.zip = zip;
         this.region = region;
         this.city = city;
         this.street = street;
         this.building = building;
     }
 
+    /** Полный констркутор класса User */
     User(String firstName, String lastName, String patrName, int age, String gender,
          CustomDate birthday, String inn, int zip, String country, String region,
          String city, String street, int building, int appart) {
 
-        this(firstName, lastName, patrName, age, gender, birthday, zip, region, city,
+        this(firstName, lastName, patrName, age, gender, birthday, region, city,
                 street, building);
 
         this.inn = inn;
         this.country = country;
         this.appart = appart;
+        this.zip = zip;
     }
 
     public void setCountry(String country) {
@@ -55,10 +66,15 @@ public class User {
         this.inn = inn;
     }
 
+    public void setZip(int zip) {
+        this.zip = zip;
+    }
+
     public void setAppart(int appart) {
         this.appart = appart;
     }
 
+    /** @return массив атрибутов пользователя */
     public Object[] getValues() {
         Object[] result = new Object[14];
         result[0] = firstName;
@@ -75,6 +91,18 @@ public class User {
         result[11] = street;
         result[12] = building;
         result[13] = appart;
+
+        return result;
+    }
+
+    /** @return массив атрибутов пользователя в строковом представлении */
+    public String[] toStringArray() {
+        String[] result = new String[14];
+        Object[] attrs = getValues();
+
+        for(int i = 0; i < result.length; i++) {
+            result[i] = attrs[i].toString();
+        }
 
         return result;
     }
