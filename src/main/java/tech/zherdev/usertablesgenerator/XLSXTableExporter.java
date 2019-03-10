@@ -19,11 +19,11 @@ import java.io.IOException;
 
 /**
  * Класс XLSXTableExporter предназначен для вывода пользовательских
- * данных в XLSX таблицу. Реализует интерфейс TableExporter.
+ * данных в XLSX таблицу. Реализует интерфейс ITableExporter.
  *
  * @author Ivan Zherdev
  */
-public class XLSXTableExporter implements TableExporter {
+public class XLSXTableExporter implements ITableExporter {
     /* Используется библиотека appache poi */
 
     private static final String destination = "UserTable.xlsx";
@@ -142,4 +142,5 @@ public class XLSXTableExporter implements TableExporter {
     public void exportToFile() throws IOException {
         exportToFile(destination);
     }
+
 }

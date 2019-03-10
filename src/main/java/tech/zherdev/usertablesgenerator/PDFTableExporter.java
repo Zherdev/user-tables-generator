@@ -18,11 +18,11 @@ import java.io.IOException;
 
 /**
  * Класс PDFTableExporter предназначен для вывода пользовательских
- * данных в PDF таблицу. Реализует интерфейс TableExporter.
+ * данных в PDF таблицу. Реализует интерфейс ITableExporter.
  *
  * @author Ivan Zherdev
  */
-public class PDFTableExporter implements TableExporter {
+public class PDFTableExporter implements ITableExporter {
     /* Используется библиотека itextpdf */
 
     private static final String destination = "UserTable.pdf";
@@ -130,4 +130,5 @@ public class PDFTableExporter implements TableExporter {
     public void exportToFile() throws IOException {
         exportToFile(destination);
     }
+
 }
