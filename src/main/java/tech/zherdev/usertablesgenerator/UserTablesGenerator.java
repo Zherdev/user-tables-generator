@@ -49,7 +49,6 @@ public class UserTablesGenerator {
             utg.init();
             utg.run();
         } catch (IOException e) {
-            /* Выводим ошибку в лог */
             logger.error(e);
             throw e;
         }
