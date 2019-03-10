@@ -24,6 +24,7 @@ public abstract class AUserGenerator {
     protected static final int minMailIndex = 100000;
 
     protected static final SecureRandom random = new SecureRandom();
+    protected static final String resourceFolder = "";    /* Ресурсы хранятся в корне .jar-архива */
 
     protected static InnGenerator innGenerator = new InnGenerator(innRegion, innBound);
 

@@ -20,8 +20,6 @@ import java.util.Map;
  */
 public class RandomUserGenerator extends AUserGenerator {
 
-    private static final SecureRandom random = new SecureRandom();
-    private static final String resourceFolder = "";    /* Ресурсы хранятся в корне .jar-архива */
     private static final int maxBuildingNum = 100;
 
     /* Названия атрибутов соответствуют именам ресурсных файлов */
@@ -39,7 +37,7 @@ public class RandomUserGenerator extends AUserGenerator {
     private Map<String, ArrayList<String>> addresses;
 
     /**
-     * Конструктор класса UserAttrGenerator
+     * Конструктор класса RandomUserGenerator
      *
      * @throws IOException в случае ошибки при чтении файла
      */

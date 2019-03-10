@@ -16,6 +16,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Класс APIUserGenerator предназначен для получения пользователей из API.
@@ -25,15 +26,38 @@ import java.io.IOException;
  */
 public class APIUserGenerator extends AUserGenerator {
     /* Используются библиотеки Gson и Apache HttpClient */
-    
-    private static final String url = "http://randomuser.ru/api.json";        /* API */
-    private static final String country = "Россия";                           /* API генерит пользователей из России*/
+
+    /* API */
+    private static final String url = "http://randomuser.ru/api.json";
 
     private static HttpClient client = HttpClientBuilder.create().build();
+
+    private static TextReader textReader  = new TextReader();
 
     private static Gson gson = new GsonBuilder()
             .registerTypeAdapter(User.class, new CustomDeserializer())
             .create();
+
+    /* Страну генерируем локально */
+    private ArrayList<String> countries;
+
+    /**
+     * Конструктор класса APIUserGenerator
+     *
+     * @throws IOException в случае ошибки при чтении файла
+     */
+    APIUserGenerator() throws IOException {
+        /* Осуществляет загрузку списка стран из ресурсных файлов */
+
+        try {
+            String fileName = resourceFolder + "Страна.txt";
+            countries = textReader.readFromFile(fileName);
+        } catch (IOException e) {
+            String message = e.getMessage() + " - Ошибка при чтении файла "
+                    + "Страна.txt";
+            throw new IOException(message);
+        }
+    }
 
     /**
      * Метод getResponseFromAPI(String url) возвращает ответ API на get запрос
@@ -90,14 +114,15 @@ public class APIUserGenerator extends AUserGenerator {
     public User generateUser() throws IOException {
         String response = responseBodyToString(getResponseFromAPI(url));
 
+        /* substring избавляет от внешних скобок [ ] массива */
         JsonElement jUser = new JsonParser()
-                .parse(response.substring(1, response.length() - 1));   /* Избавляемся от внешних скобок [ ] массива */
+                .parse(response.substring(1, response.length() - 1));
 
         User user = gson.fromJson(jUser, User.class);
 
         user.setZip(random.nextInt(maxMailIndex - minMailIndex) + minMailIndex);
         user.setAppart(random.nextInt(maxAppartNum) + 1);
-        user.setCountry(country);
+        user.setCountry(countries.get(random.nextInt(countries.size())));
         user.setInn(innGenerator.generateINN());
 
         return user;
