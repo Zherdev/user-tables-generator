@@ -22,13 +22,13 @@ public class UserTablesGenerator {
     public static final Logger logger = Logger.getLogger(UserTablesGenerator.class);
 
     /* Названия столбцов таблицы */
-    private static final String[] titles = {"Имя", "Фамилия", "Отчество",
+    private static final String[] TITLES = {"Имя", "Фамилия", "Отчество",
                                             "Возраст", "Пол", "Дата рождения",
                                             "ИНН", "Индекс", "Страна", "Область",
                                             "Город", "Улица", "Дом", "Квартира"};
 
     /* Заголовок таблицы */
-    private static final String tableName = "Пользовательские данные";
+    private static final String TABLE_NAME = "Пользовательские данные";
 
     /* Массив, содержащий генераторы пользователей */
     private AUserGenerator[] generatorsArr;
@@ -68,8 +68,8 @@ public class UserTablesGenerator {
                                                   new RandomUserGenerator()};
 
         /* Добавляем экспортер в XLSX и экспортер в PDF */
-        exportersArr = new ITableExporter[] {new XLSXTableExporter(titles.length),
-                                             new PDFTableExporter(titles.length)};
+        exportersArr = new ITableExporter[] {new XLSXTableExporter(TITLES.length),
+                                             new PDFTableExporter(TITLES.length)};
     }
 
     /**
@@ -96,8 +96,8 @@ public class UserTablesGenerator {
         /* Цикл по экспортерам таблиц */
         for (ITableExporter tabExp: exportersArr) {
             /* Форматируем таблицу */
-            tabExp.setHead(titles);
-            tabExp.setTableName(tableName);
+            tabExp.setHead(TITLES);
+            tabExp.setTableName(TABLE_NAME);
 
             /* Добавляем пользовательские записи */
             for (User user: usersList) {

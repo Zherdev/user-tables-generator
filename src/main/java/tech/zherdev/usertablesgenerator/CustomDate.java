@@ -16,15 +16,15 @@ import java.security.SecureRandom;
 public class CustomDate {
 
     private static final SecureRandom random = new SecureRandom();
-    private static final int lowestDate = 1918;
-    private static final int highestBound = 100;
+    private static final int LOWEST_DATE = 1918;
+    private static final int HIGHEST_BOUND = 100;
 
     /* Работа с датой ведется при помощи класса GregorianCalendar */
     private GregorianCalendar calendar;
 
-    /** Конструктор класса CustomDate для случайной даты */
+    /** CustomDate для случайной даты */
     CustomDate() {
-        int year = random.nextInt(highestBound) + lowestDate;
+        int year = random.nextInt(HIGHEST_BOUND) + LOWEST_DATE;
         int day;
         calendar = new GregorianCalendar();
         calendar.set(calendar.YEAR, year);
@@ -32,7 +32,10 @@ public class CustomDate {
         calendar.set(calendar.DAY_OF_YEAR, day);
     }
 
-    /** Конструктор класса CustomDate для заданной в секундах даты */
+    /**
+     * CustomDate для заданной в секундах даты
+     * @param timestamp дата в секундах
+     */
     CustomDate(long timestamp) {
         calendar = new GregorianCalendar();
         calendar.setTimeInMillis(timestamp * 1000);

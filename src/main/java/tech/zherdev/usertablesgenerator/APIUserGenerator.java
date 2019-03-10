@@ -28,7 +28,7 @@ public class APIUserGenerator extends AUserGenerator {
     /* Используются библиотеки Gson и Apache HttpClient */
 
     /* API */
-    private static final String url = "http://randomuser.ru/api.json";
+    private static final String URL = "http://randomuser.ru/api.json";
 
     private static HttpClient client = HttpClientBuilder.create().build();
 
@@ -41,16 +41,12 @@ public class APIUserGenerator extends AUserGenerator {
     /* Страну генерируем локально */
     private ArrayList<String> countries;
 
-    /**
-     * Конструктор класса APIUserGenerator
-     *
-     * @throws IOException в случае ошибки при чтении файла
-     */
+    /** @throws IOException в случае ошибки при чтении файла */
     APIUserGenerator() throws IOException {
         /* Осуществляет загрузку списка стран из ресурсных файлов */
 
         try {
-            String fileName = resourceFolder + "Страна.txt";
+            String fileName = RESOURCE_FOLDER + "Страна.txt";
             countries = textReader.readFromFile(fileName);
         } catch (IOException e) {
             String message = e.getMessage() + " - Ошибка при чтении файла "
@@ -100,7 +96,7 @@ public class APIUserGenerator extends AUserGenerator {
             return EntityUtils.toString(response.getEntity(), "UTF-8");
         } catch (IOException e) {
             String message = e.getMessage() +
-                    " - Ошибка при обработке ответа API " + url;
+                    " - Ошибка при обработке ответа API " + URL;
             throw new IOException(message);
         }
     }
@@ -112,7 +108,7 @@ public class APIUserGenerator extends AUserGenerator {
      * @throws IOException в случае ошибки при обращении к API
      */
     public User generateUser() throws IOException {
-        String response = responseBodyToString(getResponseFromAPI(url));
+        String response = responseBodyToString(getResponseFromAPI(URL));
 
         /* substring избавляет от внешних скобок [ ] массива */
         JsonElement jUser = new JsonParser()
@@ -120,8 +116,8 @@ public class APIUserGenerator extends AUserGenerator {
 
         User user = gson.fromJson(jUser, User.class);
 
-        user.setZip(random.nextInt(maxMailIndex - minMailIndex) + minMailIndex);
-        user.setAppart(random.nextInt(maxAppartNum) + 1);
+        user.setZip(random.nextInt(MAX_MAIL_INDEX - MIN_MAIL_INDEX) + MIN_MAIL_INDEX);
+        user.setAppart(random.nextInt(MAX_APPART_NUM) + 1);
         user.setCountry(countries.get(random.nextInt(countries.size())));
         user.setInn(innGenerator.generateINN());
 

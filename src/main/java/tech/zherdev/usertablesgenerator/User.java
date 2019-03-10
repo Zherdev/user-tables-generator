@@ -27,7 +27,7 @@ public class User {
     private int building;
     private int appart;
 
-    /** Неполный конструктор класса User. */
+    /** Неполный конструктор */
     User(String firstName, String lastName, String patrName, int age, String gender,
          CustomDate birthday, String region,
          String city, String street, int building) {
@@ -44,7 +44,7 @@ public class User {
         this.building = building;
     }
 
-    /** Полный констркутор класса User */
+    /** Полный констркутор */
     User(String firstName, String lastName, String patrName, int age, String gender,
          CustomDate birthday, String inn, int zip, String country, String region,
          String city, String street, int building, int appart) {

@@ -5,6 +5,8 @@
  */
 package tech.zherdev.usertablesgenerator;
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -20,12 +22,12 @@ import java.util.Map;
  */
 public class RandomUserGenerator extends AUserGenerator {
 
-    private static final int maxBuildingNum = 100;
+    private static final int MAX_BUILDING_NUM = 100;
 
     /* Названия атрибутов соответствуют именам ресурсных файлов */
-    private static final String[] nameAttributes = {"Имя", "Фамилия", "Отчество"};
-    private static final String[] genders = {"Ж", "М"};
-    private static final String[] addressAttributes = {"Страна", "Область",
+    private static final String[] NAME_ATTRIBUTES = {"Имя", "Фамилия", "Отчество"};
+    private static final String[] GENDERS = {"Ж", "М"};
+    private static final String[] ADRESS_ATTRIBUTES = {"Страна", "Область",
                                                        "Город", "Улица"};
 
     private static TextReader textReader  = new TextReader();
@@ -36,11 +38,7 @@ public class RandomUserGenerator extends AUserGenerator {
     /* Коллекция всех возможных адресов пользователей */
     private Map<String, ArrayList<String>> addresses;
 
-    /**
-     * Конструктор класса RandomUserGenerator
-     *
-     * @throws IOException в случае ошибки при чтении файла
-     */
+    /** @throws IOException в случае ошибки при чтении файла */
     RandomUserGenerator() throws IOException {
         /* Осуществляет загрузку данных из ресурсных файлов */
 
@@ -48,15 +46,15 @@ public class RandomUserGenerator extends AUserGenerator {
         addresses = new HashMap<String, ArrayList<String>>();
 
         /* Загрузка наборов имен. Цикл по мужскому/женскому полу */
-        for (String gender: genders) {
+        for (String gender: GENDERS) {
             names.put(gender, new HashMap<String, ArrayList<String>>());
-            for (String nameType: nameAttributes) {
+            for (String nameType: NAME_ATTRIBUTES) {
                 try {
                     /*
                      * Имя ресурсного txt файла составляется из пола
                      * и типа искомого набора пользовательских имен
                      */
-                    String fileName = resourceFolder + gender
+                    String fileName = RESOURCE_FOLDER + gender
                                       + nameType.substring(0, 3) + ".txt";
                     names.get(gender).put(nameType,
                                           textReader.readFromFile(fileName));
@@ -68,9 +66,9 @@ public class RandomUserGenerator extends AUserGenerator {
             }
         }
         /* Загрузка адресов. Цикл по типу адреса (страна/область...) */
-        for (String adrType: addressAttributes) {
+        for (String adrType: ADRESS_ATTRIBUTES) {
             try {
-                String fileName = resourceFolder + adrType + ".txt";
+                String fileName = RESOURCE_FOLDER + adrType + ".txt";
                 addresses.put(adrType, textReader.readFromFile(fileName));
             } catch (IOException e) {
                 String message = e.getMessage() + " - Ошибка при чтении файла "
@@ -86,8 +84,8 @@ public class RandomUserGenerator extends AUserGenerator {
      * @return пользователь
      */
     public User generateUser() {
-        String gender = genders[random.nextInt(2)];
-        int zip = random.nextInt(maxMailIndex - minMailIndex) + minMailIndex;
+        String gender = GENDERS[random.nextInt(2)];
+        int zip = random.nextInt(MAX_MAIL_INDEX - MIN_MAIL_INDEX) + MIN_MAIL_INDEX;
         CustomDate birthDate = new CustomDate();
 
         return new User(
@@ -110,8 +108,8 @@ public class RandomUserGenerator extends AUserGenerator {
                         .get(random.nextInt(addresses.get("Город").size())),
                 addresses.get("Улица")
                         .get(random.nextInt(addresses.get("Улица").size())),
-                random.nextInt(maxBuildingNum) + 1,
-                random.nextInt(maxAppartNum) + 1
+                random.nextInt(MAX_BUILDING_NUM) + 1,
+                random.nextInt(MAX_APPART_NUM) + 1
         );
     }
 

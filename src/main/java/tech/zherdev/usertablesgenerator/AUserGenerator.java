@@ -16,17 +16,17 @@ import java.util.ArrayList;
  */
 public abstract class AUserGenerator {
 
-    protected static final int maxUsers = 30;
-    protected static final int maxAppartNum = 200;
-    protected static final int innRegion = 77;
-    protected static final int innBound = 52;             /* Максимальный номер отделения налоговой */
-    protected static final int maxMailIndex = 200000;
-    protected static final int minMailIndex = 100000;
+    protected static final int MAX_USERS = 30;
+    protected static final int MAX_APPART_NUM = 200;
+    protected static final int INN_REGION = 77;
+    protected static final int INN_BOUND = 52;             /* Максимальный номер отделения налоговой */
+    protected static final int MAX_MAIL_INDEX = 200000;
+    protected static final int MIN_MAIL_INDEX = 100000;
 
     protected static final SecureRandom random = new SecureRandom();
-    protected static final String resourceFolder = "";    /* Ресурсы хранятся в корне .jar-архива */
+    protected static final String RESOURCE_FOLDER = "";    /* Ресурсы хранятся в корне .jar-архива */
 
-    protected static InnGenerator innGenerator = new InnGenerator(innRegion, innBound);
+    protected static InnGenerator innGenerator = new InnGenerator(INN_REGION, INN_BOUND);
 
     /**
      * Метод generateUser() генерирует пользователя.
@@ -59,7 +59,7 @@ public abstract class AUserGenerator {
      * @throws IOException
      */
     public ArrayList<User> generateUsersList() throws IOException {
-        return generateUsersList(random.nextInt(maxUsers) + 1);
+        return generateUsersList(random.nextInt(MAX_USERS) + 1);
     }
 
 }

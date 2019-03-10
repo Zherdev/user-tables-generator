@@ -26,17 +26,13 @@ import java.io.IOException;
 public class XLSXTableExporter implements ITableExporter {
     /* Используется библиотека appache poi */
 
-    private static final String destination = "UserTable.xlsx";
+    private static final String DESTINATION = "UserTable.xlsx";
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
     private XSSFCellStyle titleStyle;
     private int numCol;
 
-    /**
-     * Конструктор класса XLSXTableExporter.
-     *
-     * @param numColumns Количество столбцов в таблице
-     */
+    /** @param numColumns Количество столбцов в таблице */
     XLSXTableExporter(int numColumns) {
         numCol = numColumns;
         workbook = new XSSFWorkbook();
@@ -140,7 +136,7 @@ public class XLSXTableExporter implements ITableExporter {
      * @throws IOException в случае ошибки записи в файл
      */
     public void exportToFile() throws IOException {
-        exportToFile(destination);
+        exportToFile(DESTINATION);
     }
 
 }

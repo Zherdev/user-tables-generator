@@ -15,6 +15,7 @@ import java.io.IOException;
  * @author Ivan Zherdev
  */
 public interface ITableExporter {
+
     /**
      * Метод addRowToEnd(String[] cellsList) добавляет новый ряд
      * в конец таблицы.

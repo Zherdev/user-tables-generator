@@ -19,7 +19,10 @@ public class InnGenerator {
     private String innRegion;
     private int innBound;             /* Максимальный номер отделения налоговой */
 
-    /** Констркутор класса InnGenerator */
+    /**
+     * @param innRegion код региона
+     * @param innBound максимальный номер отделения налоговой
+     */
     InnGenerator(int innRegion, int innBound) {
         this.innRegion = String.valueOf(innRegion);
         this.innBound = innBound;

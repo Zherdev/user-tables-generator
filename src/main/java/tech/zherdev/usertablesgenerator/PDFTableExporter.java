@@ -25,35 +25,35 @@ import java.io.IOException;
 public class PDFTableExporter implements ITableExporter {
     /* Используется библиотека itextpdf */
 
-    private static final String destination = "UserTable.pdf";
-    private static final String FONT = "FreeSans.ttf";
+    private static final String DESTINATION = "UserTable.pdf";
+    private static final String FONT_FILE = "FreeSans.ttf";
+    private static PdfFont FONT = null;
     private Table mainTable;
     private Paragraph head;
-    private PdfFont font;
 
     /**
-     * Конструктор класса PDFTableExporter.
-     *
-     * @param numColumns Количество столбцов в таблице
+     * @param numColumns количество столбцов в таблице
      * @throws IOException в случае ошибки при загрузке шрифта
      */
     PDFTableExporter(int numColumns) throws IOException{
-        font = createFont();
         mainTable = new Table(numColumns);
-        mainTable.setFont(font);
+        if (FONT == null) {
+            createFont();
+        }
+        mainTable.setFont(FONT);
         mainTable.setFontSize(5);
         head = null;
     }
 
     /**
-     * Статический метод createFont() возвращает шрифт для выходного файла.
+     * Статический метод createFont() создает шрифт для таблицы.
      *
      * @throws IOException в случае ошибки при загрузке шрифта
      * @return Шрифт PdfFont
      */
-    private static PdfFont createFont() throws IOException {
+    private static void createFont() throws IOException {
         /* Шрифт берется из .ttf файла, заданного константой FONT */
-        return PdfFontFactory.createFont(FONT, "Identity-H", true);
+        FONT = PdfFontFactory.createFont(FONT_FILE, "Identity-H", true);
     }
 
     /**
@@ -65,7 +65,7 @@ public class PDFTableExporter implements ITableExporter {
     public void setTableName(String name) {
         /* Добавляет параграф с названием */
         head = new Paragraph(name);
-        head.setFont(font);
+        head.setFont(FONT);
     }
 
     /**
@@ -128,7 +128,7 @@ public class PDFTableExporter implements ITableExporter {
      * @throws IOException в случае ошибки записи в файл
      */
     public void exportToFile() throws IOException {
-        exportToFile(destination);
+        exportToFile(DESTINATION);
     }
 
 }
