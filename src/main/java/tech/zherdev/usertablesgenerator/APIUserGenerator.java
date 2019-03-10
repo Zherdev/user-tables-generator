@@ -79,7 +79,7 @@ public class APIUserGenerator extends AUserGenerator {
                 throw new IOException("Неудача. Код состояния " + responseCode);
             }
         } catch (IOException e) {
-            String message = e.getMessage() + " - Ошибка обращении к API " +
+            String message = e.getMessage() + " - Ошибка при обращении к API " +
                     url + ", проверьте соединение с Интернетом.";
             throw new IOException(message);
         }
