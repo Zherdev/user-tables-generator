@@ -25,8 +25,8 @@ import java.io.IOException;
  */
 public class APIUserGenerator extends AUserGenerator {
     /* Используются библиотеки Gson и Apache HttpClient */
-
-	private static final String url = "http://randomuser.ru/api.json";        /* API */
+    
+    private static final String url = "http://randomuser.ru/api.json";        /* API */
     private static final String country = "Россия";                           /* API генерит пользователей из России*/
 
     private static HttpClient client = HttpClientBuilder.create().build();
