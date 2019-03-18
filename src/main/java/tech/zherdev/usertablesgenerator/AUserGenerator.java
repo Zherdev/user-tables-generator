@@ -32,9 +32,9 @@ public abstract class AUserGenerator {
      * Метод generateUser() генерирует пользователя.
      *
      * @return пользователь
-     * @throws IOException
+     * @throws UserGeneratorException
      */
-    public abstract User generateUser() throws IOException;
+    public abstract User generateUser() throws UserGeneratorException;
 
     /**
      * Метод generateUsersList(int numOfUsers) генерирует коллекцию
@@ -42,9 +42,9 @@ public abstract class AUserGenerator {
      *
      * @param numOfUsers количество пользователей
      * @return Коллекция пользователей
-     * @throws IOException
+     * @throws UserGeneratorException
      */
-    public ArrayList<User> generateUsersList(int numOfUsers) throws IOException {
+    public ArrayList<User> generateUsersList(int numOfUsers) throws UserGeneratorException {
         ArrayList<User> usersList = new ArrayList<User>();
         for (; numOfUsers > 0; numOfUsers--) {
             usersList.add(generateUser());
@@ -56,9 +56,9 @@ public abstract class AUserGenerator {
      * Перегруженный метод generateUsersList() для случайного числа пользователей.
      *
      * @return Коллекция пользователей
-     * @throws IOException
+     * @throws UserGeneratorException
      */
-    public ArrayList<User> generateUsersList() throws IOException {
+    public ArrayList<User> generateUsersList() throws UserGeneratorException {
         return generateUsersList(random.nextInt(MAX_USERS) + 1);
     }
 

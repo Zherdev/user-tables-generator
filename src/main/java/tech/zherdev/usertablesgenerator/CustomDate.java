@@ -5,6 +5,9 @@
  */
 package tech.zherdev.usertablesgenerator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.security.SecureRandom;
 
@@ -41,6 +44,19 @@ public class CustomDate {
         calendar.setTimeInMillis(timestamp * 1000);
     }
 
+    /**
+     * CustomDate для даты, заданной в виде ГГГГ-ММ-ДД
+     *
+     * @param dateReverse
+     * @throws ParseException в случае ошибки при парсинге даты
+     */
+    CustomDate(String dateReverse) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse(dateReverse);
+        calendar = new GregorianCalendar();
+        calendar.setTime(date);
+    }
+
     /** @return возвращает хранящуюся дату в календаре */
     public GregorianCalendar getCalendar() {
         return calendar;
@@ -70,7 +86,7 @@ public class CustomDate {
     @Override
     public String toString() {
         return String.format("%02d", calendar.get(calendar.DAY_OF_MONTH)) + "-"
-               + String.format("%02d", calendar.get(calendar.MONTH)) + "-"
+               + String.format("%02d", calendar.get(calendar.MONTH) + 1) + "-"
                + String.format("%04d", calendar.get(calendar.YEAR));
     }
 

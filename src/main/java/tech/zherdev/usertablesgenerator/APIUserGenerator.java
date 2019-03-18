@@ -16,6 +16,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -41,10 +42,21 @@ public class APIUserGenerator extends AUserGenerator {
     /* Страну генерируем локально */
     private ArrayList<String> countries;
 
-    /** @throws IOException в случае ошибки при чтении файла */
-    APIUserGenerator() throws IOException {
-        /* Осуществляет загрузку списка стран из ресурсных файлов */
+    private UserDB db;
 
+    /**
+     * @throws IOException в случае ошибки при чтении файла
+     */
+    APIUserGenerator() throws IOException {
+        try {
+            db = new UserDB();
+        } catch (Exception e) {
+            /* Не используем БД в случае любой ошибки при подключении */
+            UserTablesGenerator.logger.error(e);
+            db = null;
+        }
+
+        /* Загрузка списка стран из ресурсных файлов */
         try {
             String fileName = RESOURCE_FOLDER + "Страна.txt";
             countries = textReader.readFromFile(fileName);
@@ -105,10 +117,19 @@ public class APIUserGenerator extends AUserGenerator {
      * Метод generateUser() генерирует пользователя из данных, полученных от API
      *
      * @return пользователь
-     * @throws IOException в случае ошибки при обращении к API
+     * @throws UserGeneratorException в случае ошибки при получении
+     * пользователя от API
      */
-    public User generateUser() throws IOException {
-        String response = responseBodyToString(getResponseFromAPI(URL));
+    public User generateUser() throws UserGeneratorException {
+        String response = null;
+
+        try {
+            response = responseBodyToString(getResponseFromAPI(URL));
+        } catch (IOException e) {
+            String message = e.getMessage() + " - Ошибка при получении " +
+                    "генератором пользователя от API";
+            throw new UserGeneratorException(message);
+        }
 
         /* substring избавляет от внешних скобок [ ] массива */
         JsonElement jUser = new JsonParser()
@@ -116,10 +137,22 @@ public class APIUserGenerator extends AUserGenerator {
 
         User user = gson.fromJson(jUser, User.class);
 
-        user.setZip(random.nextInt(MAX_MAIL_INDEX - MIN_MAIL_INDEX) + MIN_MAIL_INDEX);
+        user.setZip(random.nextInt(MAX_MAIL_INDEX - MIN_MAIL_INDEX)
+                    + MIN_MAIL_INDEX);
         user.setAppart(random.nextInt(MAX_APPART_NUM) + 1);
         user.setCountry(countries.get(random.nextInt(countries.size())));
         user.setInn(innGenerator.generateINN());
+
+        /* Запись в БД */
+        if (db != null) {
+            try {
+                db.putUser(user);
+            } catch (SQLException e) {
+                String message = e.getMessage() + " - Ошибка при записи " +
+                        "пользователя из API в БД";
+                throw new UserGeneratorException(message);
+            }
+        }
 
         return user;
     }

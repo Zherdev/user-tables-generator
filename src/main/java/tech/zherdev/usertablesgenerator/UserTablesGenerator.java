@@ -8,6 +8,7 @@ package tech.zherdev.usertablesgenerator;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -30,8 +31,8 @@ public class UserTablesGenerator {
     /* Заголовок таблицы */
     private static final String TABLE_NAME = "Пользовательские данные";
 
-    /* Массив, содержащий генераторы пользователей */
-    private AUserGenerator[] generatorsArr;
+    /* Коллекция генераторов пользователей */
+    private ArrayList<AUserGenerator> generatorsList;
 
     /* Массив, содержащий экспортеры таблиц */
     private ITableExporter[] exportersArr;
@@ -62,9 +63,18 @@ public class UserTablesGenerator {
      */
     private void init() throws IOException {
 
+        generatorsList = new ArrayList<AUserGenerator>();
+
         /* Добавляем генераторы пользователей в порядке убывания приоритета */
-        generatorsArr = new AUserGenerator[] {new APIUserGenerator(),
-                                                  new RandomUserGenerator()};
+        generatorsList.add(new APIUserGenerator());
+        try {
+            DBUserGenerator dbGen = new DBUserGenerator();
+            generatorsList.add(dbGen);
+        } catch (Exception e) {
+            /* Не используем БД в случае любой ошибки при подключении */
+            logger.error(e);
+        }
+        generatorsList.add(new RandomUserGenerator());
 
         /* Добавляем экспортер в XLSX и экспортер в PDF */
         exportersArr = new ITableExporter[] {new XLSXTableExporter(TITLES.length),
@@ -80,13 +90,13 @@ public class UserTablesGenerator {
         ArrayList<User> usersList = null;
 
         /* Цикл по генераторам пользователей */
-        for (AUserGenerator generator: generatorsArr) {
+        for (AUserGenerator generator: generatorsList) {
             try {
                 usersList = generator.generateUsersList();
 
                 /* Если генерация прошла успешно - выходим из цикла */
                 break;
-            } catch (IOException e) {
+            } catch (UserGeneratorException e) {
                 /* Выводим ошибку в лог */
                 logger.error(e);
             }

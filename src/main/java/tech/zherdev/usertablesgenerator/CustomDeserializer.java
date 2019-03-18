@@ -28,13 +28,20 @@ public class CustomDeserializer implements JsonDeserializer<User> {
 
         CustomDate birthday = new CustomDate(user.get("dob").getAsLong());
         int age = birthday.countPassedYears();
+        String gender;
+
+        if (user.get("gender").getAsString().equals("male")) {
+            gender = "М";
+        } else {
+            gender = "Ж";
+        }
 
         return new User(
                 name.get("first").getAsString(),
                 name.get("last").getAsString(),
                 name.get("middle").getAsString(),
                 age,
-                user.get("gender").getAsString(),
+                gender,
                 birthday,
                 location.get("state").getAsString(),
                 location.get("city").getAsString(),

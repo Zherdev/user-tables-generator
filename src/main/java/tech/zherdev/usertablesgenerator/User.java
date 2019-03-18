@@ -74,6 +74,58 @@ public class User {
         this.appart = appart;
     }
 
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public String getPatrName() {
+        return this.patrName;
+    }
+
+    public CustomDate getBirthday() {
+        return this.birthday;
+    }
+
+    public String getGender() {
+        return this.gender;
+    }
+
+    public String getInn() {
+        return this.inn;
+    }
+
+    public int getZip() {
+        return this.zip;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public String getRegion() {
+        return this.region;
+    }
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public String getStreet() {
+        return this.street;
+    }
+
+    public int getBuilding() {
+        return this.building;
+    }
+
+    public int getAppart() {
+        return this.appart;
+    }
+
     /** @return массив атрибутов пользователя */
     public Object[] getValues() {
         Object[] result = new Object[14];
